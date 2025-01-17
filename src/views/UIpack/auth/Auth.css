@@ -1,0 +1,19 @@
+.btn-auth{
+    min-width: 113px;
+    padding: 12px;
+    text-align: center;
+    margin: 0px -3px;
+    background: #444a51;
+    cursor: pointer;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+}
+
+.btn-auth:hover{
+    background: #1f6210;
+}
+
+.text-auth{
+    color: #777777;
+}

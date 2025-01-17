@@ -1,0 +1,22 @@
+.overlay-image{
+    position: fixed;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+.overlay-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90vw;
+    height: 90vh;
+    background-size: contain;
+    background-repeat:no-repeat;
+    background-position: center center;
+}
