@@ -13,7 +13,6 @@ import ThemeProviderMUI from './core/Providers/ThemeProviderMUI/ThemeProviderMUI
 import { setUserData, setUserId } from './store/user/userSlice';
 import BreadcrumbsProvider from './core/Providers/BreadcrumbsProvider/BreadcrumbsProvider';
 import { CssBaseline } from '@mui/material';
-import { getUserById } from './store/user/userReducer';
 import { hideModal } from './store/modalAuth/slice';
 import { getCurrentAccessToken } from './core/Api/functionsStorage';
 import router from './router';
@@ -28,13 +27,6 @@ function App() {
             const userData = processAccessToken(accessToken);
 
             dispatch(setUserId(userData.sub));
-
-            dispatch(getUserById(userData.sub)).then(resp => {
-                if (resp.payload) {
-                    dispatch(setUserData(resp.payload));
-                    dispatch(hideModal());
-                }
-            });
         }
     }, [accessToken])
 

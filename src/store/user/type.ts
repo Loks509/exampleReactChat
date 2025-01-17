@@ -1,15 +1,10 @@
-export interface iUserId {
-    id: number
-}
-
 export interface iUserData {
-    firstname: string,
-    secondname: string,
-    lastname: string,
-    dateBirth: string,
-    rights?: string,
-    image?: string,
-    photo?: string,
+    id: number,
+    name: string,
+    email: string,
+    email_verified_at?: string,
+    created_at: string,
+    updated_at: string,
 }
 
 export interface ITokens {
@@ -26,7 +21,6 @@ export interface ITokenData {
     extr: number,
 }
 
-export interface IUser extends iUserData, iUserId {
-    shortName: string,
+export interface IUser extends iUserData {
     isLogin: boolean,
 }
