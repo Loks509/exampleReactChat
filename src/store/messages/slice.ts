@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { initialState, messagesAdapter } from "./initialState";
+import { initialState } from "./initialState";
 import { getMessages } from "./asyncReducer";
+import { messagesAdapter } from "./type";
 
 const messagesSlice = createSlice({
     name: 'messages',
@@ -13,7 +14,7 @@ const messagesSlice = createSlice({
         });
 
         builder.addCase(getMessages.fulfilled, (state, action) => {
-            messagesAdapter.addMany(state, action.payload);
+            messagesAdapter.addMany(state.messages, action.payload);
             state.loadingStatus = 'idle';
         });
         

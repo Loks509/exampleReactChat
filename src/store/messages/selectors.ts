@@ -1,4 +1,4 @@
 import { RootState } from "../store";
-import { messagesAdapter } from "./initialState";
+import { messagesAdapter } from "./type";
 
-export const messagesSelectors = messagesAdapter.getSelectors((state: RootState) => state.messages)
+export const messagesSelectors = messagesAdapter.getSelectors((state: RootState) => state.messages.messages)

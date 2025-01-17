@@ -9,7 +9,7 @@ export default function SelectedChat(){
     const dispatch = useAppDispatch()
 
     const messages = useAppSelector(messagesSelectors.selectAll);
-    const isLoading = useAppSelector(state => state.messages.loadingStatus) === 'loading';
+    //const isLoading = useAppSelector(state => state.messages.loadingStatus) === 'loading';
 
     useEffectAuth(() => {
         dispatch(getMessages(Number(chatId)))

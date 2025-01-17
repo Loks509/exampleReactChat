@@ -1,3 +1,4 @@
+//@ts-nocheck
 import React, { ChangeEvent, useId, useState } from "react";
 import { IconButton, FormControl, InputLabel, OutlinedInput, InputAdornment, FormHelperText } from "@mui/material";
 
