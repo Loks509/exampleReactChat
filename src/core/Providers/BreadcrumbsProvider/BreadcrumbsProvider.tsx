@@ -63,7 +63,5 @@ export function useBreadcrumbs(item: itemBreadcrumbs) {
 
 export function useBreadcrumbsGet(): itemBreadcrumbs[] {
     const breadcrumbsContext = useBreadcrumbsContext();
-
-    console.debug(breadcrumbsContext.breadcrumbs)
     return breadcrumbsContext.breadcrumbs;
 }
