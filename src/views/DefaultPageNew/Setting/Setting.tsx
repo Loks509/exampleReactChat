@@ -110,11 +110,11 @@ function Setting() {
     }
 
     const settings = [
-        { name: <colorMode.Toggler />, action: colorMode.toggleColorMode },
+        { name: <><colorMode.Toggler /> Сменить тему</>, action: colorMode.toggleColorMode },
         { name: 'Выход', action: logOutF },
     ];
     const settings2 = [
-        { name: <colorMode.Toggler />, action: colorMode.toggleColorMode },
+        { name: <><colorMode.Toggler /> Сменить тему</>, action: colorMode.toggleColorMode },
     ];
 
     const themeMobile = useTheme();
