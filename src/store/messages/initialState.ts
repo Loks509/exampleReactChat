@@ -1,14 +1,8 @@
-import { createEntityAdapter } from "@reduxjs/toolkit";
-import { IinitialState, IitemMessage } from "./type";
-import dayjs from 'dayjs';
+import { IinitialState, messagesAdapter } from "./type";
 
-export const messagesAdapter = createEntityAdapter({
-    selectId: (message: IitemMessage) => message.id,
-    sortComparer: (a, b) => dayjs(a.created_at).millisecond() < dayjs(b.created_at).millisecond() ? 1 : -1
-})
-
-export const initialState = messagesAdapter.getInitialState<IinitialState>({
+export const initialState: IinitialState = {
+    messages: messagesAdapter.getInitialState(),
     loadingStatus: 'idle',
     error: null,
     chatInfo: undefined,
-});
+}

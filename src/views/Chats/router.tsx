@@ -12,7 +12,7 @@ export const router: RouteObjectExtend[] = [
     },
     {
         title: "Some chat",
-        path: "test",
+        path: ":chatId",
         element: <SelectedChat />
     }
 ];
