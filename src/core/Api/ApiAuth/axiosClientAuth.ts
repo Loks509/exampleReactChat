@@ -6,6 +6,5 @@ export const clientAuth = createAxiosClientAuth({
         headers: {
             'Content-Type': 'application/json',
         }
-    },
-    platform: import.meta.env.VITE_PLATFORM
+    }
 })

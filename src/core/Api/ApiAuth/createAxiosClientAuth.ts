@@ -2,20 +2,11 @@ import axios, { CreateAxiosDefaults } from "axios";
 import toast from "react-hot-toast";
 
 export function createAxiosClientAuth({
-    options,
-    platform
+    options
 }: {
-    options: CreateAxiosDefaults,
-    platform: number
+    options: CreateAxiosDefaults
 }) {
     const client = axios.create(options);
-
-    client.interceptors.request.use(
-        (config) => {
-            config.data['platform'] = String(platform)
-            return config;
-        },
-    );
 
     client.interceptors.response.use(
         undefined,

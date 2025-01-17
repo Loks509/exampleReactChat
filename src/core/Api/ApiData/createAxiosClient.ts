@@ -68,7 +68,6 @@ export function createAxiosClient({
 
     client.interceptors.request.use(
         (config) => {
-            //const controller = new AbortController();
             const token = getCurrentAccessToken();
 
             if (token) {
@@ -89,8 +88,8 @@ export function createAxiosClient({
             if (
                 error.status === 401 &&
                 (
-                    error.response?.data?.data?.Error === INVALID_SIGNATURE ||
-                    error.response?.data?.data?.Error === TIMEOUT_ACCESS
+                    error.response?.data?.data?.Error === import.meta.env.VITE_INVALID_SIGNATURE ||
+                    error.response?.data?.data?.Error === import.meta.env.VITE_TIMEOUT_ACCESS
                 )
             ) {
                 if (originalRequest?._retry !== true) {

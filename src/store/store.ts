@@ -1,17 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { reducer } from "./store-index"
-import { clientLK } from "../core/Api/ApiData/axiosClientLK";
-import { clientApiV2 } from "../core/Api/ApiData/axiosClient";
+import { clientApi } from "../core/Api/ApiData/axiosClient";
 
 import { AxiosInstance } from "axios";
-import { PLATFORM } from "../core/config/config";
 
 export const store = configureStore({
     reducer,
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware({
             thunk: {
-                extraArgument: { clientLK, clientApiV2, platform: PLATFORM }
+                extraArgument: { clientApi }
             }
         })
     ,
@@ -25,9 +23,7 @@ export interface IthunkApi {
     dispatch: AppDispatch,
     state: RootState,
     extra: {
-        clientLK: AxiosInstance,
-        clientApiV2: AxiosInstance,
-        platform: number,
+        clientApi: AxiosInstance,
     }
 }
 
