@@ -1,0 +1,62 @@
+[
+    {
+        "id": 6,
+        "user_id1": 6,
+        "user_id2": 7,
+        "created_at": "2025-01-17T15:22:21.000000Z",
+        "user1": {
+            "id": 6,
+            "name": "Miss Adelia Heathcote",
+            "email": "vbechtelar@example.com",
+            "email_verified_at": "2025-01-17T08:44:09.000000Z",
+            "created_at": "2025-01-17T08:44:09.000000Z",
+            "updated_at": "2025-01-17T08:44:09.000000Z"
+        },
+        "user2": {
+            "id": 7,
+            "name": "Bertram Batz",
+            "email": "lulu23@example.com",
+            "email_verified_at": "2025-01-17T08:44:09.000000Z",
+            "created_at": "2025-01-17T08:44:09.000000Z",
+            "updated_at": "2025-01-17T08:44:09.000000Z"
+        },
+        "latest_message": {
+            "id": 96,
+            "message": "maiores reiciendis enim inventore fuga aliquid vero voluptas aliquam cumque praesentium nobis sapiente sequi est facilis ut qui cupiditate rerum",
+            "chat_id": 6,
+            "viewed_at": null,
+            "created_at": "2025-01-17T08:52:34.000000Z",
+            "updated_at": "2025-01-17T08:52:34.000000Z"
+        }
+    },
+    {
+        "id": 10,
+        "user_id1": 4,
+        "user_id2": 6,
+        "created_at": "2025-01-17T15:22:21.000000Z",
+        "user1": {
+            "id": 4,
+            "name": "Dr. Camren Luettgen",
+            "email": "nabbott@example.net",
+            "email_verified_at": "2025-01-17T08:44:09.000000Z",
+            "created_at": "2025-01-17T08:44:09.000000Z",
+            "updated_at": "2025-01-17T08:44:09.000000Z"
+        },
+        "user2": {
+            "id": 6,
+            "name": "Miss Adelia Heathcote",
+            "email": "vbechtelar@example.com",
+            "email_verified_at": "2025-01-17T08:44:09.000000Z",
+            "created_at": "2025-01-17T08:44:09.000000Z",
+            "updated_at": "2025-01-17T08:44:09.000000Z"
+        },
+        "latest_message": {
+            "id": 92,
+            "message": "delectus vel necessitatibus fugiat blanditiis qui sapiente at ipsam a voluptatibus et velit deleniti quis non nobis adipisci non est",
+            "chat_id": 10,
+            "viewed_at": null,
+            "created_at": "2025-01-17T08:52:34.000000Z",
+            "updated_at": "2025-01-17T08:52:34.000000Z"
+        }
+    }
+]
