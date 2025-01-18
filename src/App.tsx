@@ -19,6 +19,8 @@ import router from './router';
 import { useAppDispatch } from './store/useRedux';
 import { getCurrentUser } from './store/user/asyncReducer';
 
+window.Pusher = import('pusher-js');
+
 function App() {
     const accessToken = getCurrentAccessToken();
     const dispatch = useAppDispatch();
