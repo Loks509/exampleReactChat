@@ -1,4 +1,4 @@
-import { getCurrentAccessToken, setAccessTokens, clearTokens } from "../functionsStorage";
+import { setAccessTokens, clearTokens } from "../functionsStorage";
 
 import { IpayloadApiWithoutPaginator } from "../../../store/store";
 import { iUserData } from "../../../store/user/type";

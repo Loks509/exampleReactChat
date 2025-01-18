@@ -1,7 +1,7 @@
 import { Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField } from "@mui/material"
 import ButtonSave from "../../UIpackv2/Buttons/ButtonSave/ButtonSave"
 import AutocompleteUsers from "../../UIpackv2/AutocompleteUsers/AutocompleteUsers"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { IcreateChatRequest } from "../../../store/chats/type"
 import { iUserData } from "../../../store/user/type"
 import { useAppDispatch } from "../../../store/useRedux"

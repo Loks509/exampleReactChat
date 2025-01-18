@@ -46,7 +46,7 @@ export default function SelectedChat() {
                     <ChatHeader nameChat={nameChat} />
                     <Box sx={{ height: '55px' }} />
                     <ChatMessages />
-                    <Box sx={{ height: '70px' }} />
+                    <Box sx={{ height: '80px' }} />
                     <ChatFooter chatId={Number(chatId)} />
                 </Box>
             }
