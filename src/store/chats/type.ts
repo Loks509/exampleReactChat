@@ -2,6 +2,11 @@ import { IitemMessage } from "../messages/type"
 import { IthunkFields } from "../store"
 import { iUserData } from "../user/type"
 
+export interface IcreateChatRequest {
+    message: string,
+    user_id2: number,
+}
+
 export interface IitemChat {
     id: string,
     user_id1: number,

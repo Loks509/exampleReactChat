@@ -1,6 +1,6 @@
 import { IpayloadApiWithoutPaginator } from "../store";
 import { createAppAsyncThunk } from "../useRedux";
-import { IitemChat } from "./type";
+import { IcreateChatRequest, IitemChat } from "./type";
 
 export const getChats = createAppAsyncThunk('chats/getChats',
     async (user_id: number | undefined, thunkApi) => {
@@ -22,4 +22,8 @@ export const deleteChats = createAppAsyncThunk('chats/deleteChats',
     }
 )
 
-//TODO написать создание чата
+export const createChat = createAppAsyncThunk('chats/createChat',
+    async (data: IcreateChatRequest, thunkApi) => {
+        return (await thunkApi.extra.clientApi.post<IpayloadApiWithoutPaginator<IitemChat>>(`chat`, data)).data.data;
+    }
+)

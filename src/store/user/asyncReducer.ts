@@ -7,3 +7,11 @@ export const getCurrentUser = createAppAsyncThunk('user/getCurrentUser',
         return (await thunkApi.extra.clientApi.get<IpayloadApiWithoutPaginator<iUserData>>(`current_user`)).data.data;
     }
 )
+
+export const getUserByName = createAppAsyncThunk('user/getUserByName',
+    async (name: string, thunkApi) => {
+        return (await thunkApi.extra.clientApi.get<IpayloadApiWithoutPaginator<iUserData[]>>(`user`, {
+            params: { name }
+        })).data.data;
+    }
+)

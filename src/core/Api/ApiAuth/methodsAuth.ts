@@ -42,12 +42,12 @@ export function signUp(email: string, password: string, name: string) {
 }
 
 export async function logout() {
-    clearTokens();
-    const store = (await import("../../../store/store"));
-    const unsetUser = (await import("../../../store/user/userSlice")).unsetUser;
-    store.store.dispatch(unsetUser());
-    return new Promise(() => { })
-    
+    // clearTokens();
+    // const store = (await import("../../../store/store"));
+    // const unsetUser = (await import("../../../store/user/userSlice")).unsetUser;
+    // store.store.dispatch(unsetUser());
+    // return new Promise(() => { })
+
     return clientApi.post(
         "logout"
     ).then(async (resp) => {
