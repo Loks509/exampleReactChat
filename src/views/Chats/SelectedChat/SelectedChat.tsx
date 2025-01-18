@@ -9,6 +9,8 @@ import { Backdrop, Box, CircularProgress } from "@mui/material";
 import { useBreadcrumbs } from "../../../core/Providers/BreadcrumbsProvider/BreadcrumbsProvider";
 import { getChat } from "../../../store/chats/asyncReducer";
 import { useMemo } from "react";
+import { setMessagesAll } from "../../../store/messages/slice";
+import { setSelectedChat } from "../../../store/chats/slice";
 
 export default function SelectedChat() {
     const { chatId } = useParams<'chatId'>();
@@ -25,9 +27,16 @@ export default function SelectedChat() {
     ) || '';
 
     useEffectAuth(() => {
+
+        
         if (chatId) {
             dispatch(getMessages({ chat_id: Number(chatId) }))
             dispatch(getChat(Number(chatId)));
+        }
+
+        return () => {
+            dispatch(setMessagesAll([]));
+            dispatch(setSelectedChat(null));
         }
     }, [chatId])
 
