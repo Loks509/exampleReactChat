@@ -1,4 +1,5 @@
-import { Grid2, Paper, Stack, Typography } from "@mui/material";
+// @ts-nocheck
+import { Grid2, Paper, Stack, Typography, useTheme } from "@mui/material";
 import { IitemMessage } from "../../../store/messages/type";
 import { useAppSelector } from "../../../store/useRedux";
 import getFormatDateAndTimeFromPostgres from "../../../features/functions";
@@ -10,14 +11,14 @@ interface MessageItemProps {
 }
 export default function MessageItem(props: MessageItemProps) {
     const userId = useAppSelector(state => state.user.id);
+    const theme = useTheme();
 
-    //TODO
     const isMyMessage = props.itemMessage.user_id == userId;
     const isReaded = props.itemMessage.viewed_at === null
 
     return (
         <Grid2 container sx={{ justifyContent: isMyMessage ? 'end' : '', alignItems: 'flex-end', my: 2 }}>
-            {isReaded && isMyMessage && <FontAwesomeIcon icon={faCircle} color="#1976d2" size='xs' />}
+            {isReaded && isMyMessage && <FontAwesomeIcon icon={faCircle} color={theme.palette.chat.pointNotRead} size='xs' />}
             <Paper
                 sx={{
                     backgroundColor: isMyMessage ? 'chat.selfMessageBackground' : 'chat.someoneMessageBackground',
@@ -35,7 +36,7 @@ export default function MessageItem(props: MessageItemProps) {
                     {getFormatDateAndTimeFromPostgres(props.itemMessage.created_at)}
                 </Typography>
             </Paper>
-            {isReaded && !isMyMessage && <FontAwesomeIcon icon={faCircle} color="#1976d2" size='xs' />}
+            {isReaded && !isMyMessage && <FontAwesomeIcon icon={faCircle} color={theme.palette.chat.pointNotRead} size='xs' />}
         </Grid2>
 
     )

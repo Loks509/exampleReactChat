@@ -2,6 +2,8 @@ import { faMailReplyAll, faPaperPlane } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Container, Grid2, IconButton, Paper, TextField } from "@mui/material";
 import { useRef, useState } from "react";
+import { useAppDispatch } from "../../../store/useRedux";
+import { sendMessage } from "../../../store/messages/asyncReducer";
 
 interface ChatFooterProps {
     chatId: number,
@@ -10,14 +12,18 @@ interface ChatFooterProps {
 export default function ChatFooter(props: ChatFooterProps) {
     const [message, setMessage] = useState('');
     const ref = useRef<HTMLInputElement>();
+    const dispatch = useAppDispatch();
 
-    const sendMessage = () => {
-        //TODO
+    const sendMsg = () => {
+        dispatch(sendMessage({
+            chat_id: props.chatId,
+            message
+        }))
     }
 
     const onKeyDownTextField = (event: React.KeyboardEvent<HTMLDivElement>) => {
         if (event.key === 'Enter') {
-            sendMessage();
+            sendMsg();
         }
     }
 
@@ -41,7 +47,7 @@ export default function ChatFooter(props: ChatFooterProps) {
                         />
                     </Grid2>
                     <Grid2 size={2}>
-                        <IconButton>
+                        <IconButton onClick={sendMsg}>
                             <FontAwesomeIcon icon={faPaperPlane} />
                         </IconButton>
                     </Grid2>

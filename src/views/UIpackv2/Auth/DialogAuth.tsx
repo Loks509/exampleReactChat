@@ -2,9 +2,7 @@ import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconBu
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import ButtonInput from "../Buttons/ButtonInput/ButtonInput";
 import { signIn, signUp } from "../../../core/Api/ApiAuth/methodsAuth";
-import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
-import { setUserId } from "../../../store/user/userSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import TextFieldPassword from "../TextFields/TextFieldPassword/TextFieldPassword";
@@ -43,8 +41,6 @@ export default function DialogAuth({ isOpen, handleClose }: DialogAuthProps) {
             passwordRepeat: '',
         });
     }, [mode, isOpen]);
-
-    const dispatch = useDispatch();
 
     function logInF(event: FormEvent) {
         event.preventDefault();

@@ -1,7 +1,7 @@
 import { Dialog, DialogActions, DialogContent, DialogTitle, Stack, TextField } from "@mui/material"
 import ButtonSave from "../../UIpackv2/Buttons/ButtonSave/ButtonSave"
 import AutocompleteUsers from "../../UIpackv2/AutocompleteUsers/AutocompleteUsers"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { IcreateChatRequest } from "../../../store/chats/type"
 import { iUserData } from "../../../store/user/type"
 import { useAppDispatch } from "../../../store/useRedux"
@@ -38,6 +38,10 @@ export default function ModalCreateChat(props: ModalCreateChatProps) {
             toast.error("Введите сообщение!");
         }
     }
+
+    useEffect(() => {
+        
+    }, [])
 
     return (
         <Dialog open={props.open} fullWidth>

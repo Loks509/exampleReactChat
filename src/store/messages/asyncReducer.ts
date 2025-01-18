@@ -9,3 +9,9 @@ export const getMessages = createAppAsyncThunk('messages/getMessages',
         })).data.data;
     }
 )
+
+export const sendMessage = createAppAsyncThunk('messages/sendMessage',
+    async (data: { chat_id: number, message: string }, thunkApi) => {
+        return (await thunkApi.extra.clientApi.post<IpayloadApiWithoutPaginator<{ id: number }>>(`message`, data)).data.data;
+    }
+)

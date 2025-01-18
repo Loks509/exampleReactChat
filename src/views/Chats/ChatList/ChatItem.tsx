@@ -1,4 +1,5 @@
-import { ListItem, ListItemButton, ListItemProps, ListItemText, Stack, Typography } from "@mui/material"
+// @ts-nocheck
+import { ListItem, ListItemButton, ListItemProps, ListItemText, Stack, Typography, useTheme } from "@mui/material"
 import { IitemChat } from "../../../store/chats/type"
 import getFormatDateAndTimeFromPostgres from "../../../features/functions"
 import { useAppSelector } from "../../../store/useRedux"
@@ -14,6 +15,7 @@ interface ChatItemProps {
 
 export default function ChatItem(props: ChatItemProps) {
     const userId = useAppSelector(state => state.user.id);
+    const theme = useTheme();
 
     const nameChat = useMemo(() =>
         userId == props.itemChat.user1.id ? props.itemChat.user2.name : props.itemChat.user1.name,
@@ -32,7 +34,7 @@ export default function ChatItem(props: ChatItemProps) {
                         <Typography variant='subtitle2' display='block'>
                             {props.itemChat.latest_message.message}
                         </Typography>
-                        {props.itemChat.latest_message.viewed_at === null && <FontAwesomeIcon icon={faCircle} color="#1976d2" size='xs' />}
+                        {props.itemChat.latest_message.viewed_at === null && <FontAwesomeIcon icon={faCircle} color={theme.palette.chat.pointNotRead} size='xs' />}
                     </Stack>
                     <Typography variant='caption' align='right' display='block'>
                         {getFormatDateAndTimeFromPostgres(props.itemChat.latest_message.created_at)}

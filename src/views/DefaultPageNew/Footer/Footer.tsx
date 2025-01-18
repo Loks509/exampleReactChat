@@ -20,17 +20,7 @@ const themeMob = createTheme({
         }
     }
 });
-const themeLaptop = createTheme({
-    components: {
-        MuiToolbar: {
-            styleOverrides: {
-                root: {
-                    height: '4rem',
-                },
-            }
-        }
-    }
-});
+
 
 function Footer() {
 

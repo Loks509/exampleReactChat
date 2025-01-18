@@ -33,6 +33,7 @@ const darkTheme =
             selfMessageBackground: '#1c1c1c',
             someoneMessageTextColor: 'white',
             someoneMessageBackground: '#0e0e0e',
+            pointNotRead: '#FFCC00',
         }
     },
     // props: {

@@ -31,6 +31,7 @@ const lightTheme =
             selfMessageBackground: '#1976d2',
             someoneMessageTextColor: 'black',
             someoneMessageBackground: '#f6f6f6',
+            pointNotRead: '#1976d2',
         }
     },
 }
