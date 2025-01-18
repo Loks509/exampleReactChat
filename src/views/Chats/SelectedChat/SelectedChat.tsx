@@ -2,22 +2,58 @@ import { useParams } from "react-router-dom";
 import useEffectAuth from "../../../core/hooks/useEffectAuth";
 import { useAppDispatch, useAppSelector } from "../../../store/useRedux";
 import { getMessages } from "../../../store/messages/asyncReducer";
-import { messagesSelectors } from "../../../store/messages/selectors";
+import ChatHeader from "./ChatHeader";
+import ChatMessages from "./ChatMessages";
+import ChatFooter from "./ChatFooter";
+import { Backdrop, Box, CircularProgress } from "@mui/material";
+import { useBreadcrumbs } from "../../../core/Providers/BreadcrumbsProvider/BreadcrumbsProvider";
+import { getChat } from "../../../store/chats/asyncReducer";
+import { useMemo } from "react";
 
-export default function SelectedChat(){
-    const { chatId } = useParams();
+export default function SelectedChat() {
+    const { chatId } = useParams<'chatId'>();
     const dispatch = useAppDispatch()
 
-    const messages = useAppSelector(messagesSelectors.selectAll);
-    //const isLoading = useAppSelector(state => state.messages.loadingStatus) === 'loading';
+    const userId = useAppSelector(state => state.user.id);
+    const selectedChat = useAppSelector(state => state.chats.selectedChat);
+
+    const isLoading = useAppSelector(state => state.messages.loadingStatus) === 'loading';
+
+    const nameChat = useMemo(() =>
+        userId == selectedChat?.user1.id ? selectedChat?.user2.name : selectedChat?.user1.name,
+        [userId, selectedChat?.user1.name, selectedChat?.user2.name]
+    ) || '';
 
     useEffectAuth(() => {
-        dispatch(getMessages(Number(chatId)))
+        if (chatId) {
+            dispatch(getMessages({ chat_id: Number(chatId) }))
+            dispatch(getChat(Number(chatId)));
+        }
     }, [chatId])
 
-    console.debug(messages)
+    useBreadcrumbs({ label: nameChat, depth: 3 })
+
 
     return (
-        <>Выбранный чат</>
+        <>
+            {isLoading && selectedChat === null &&
+                <Backdrop open>
+                    <CircularProgress />
+                </Backdrop>
+            }
+            {!!chatId && selectedChat !== null &&
+                <Box>
+                    <ChatHeader nameChat={nameChat} />
+                    <Box sx={{ height: '55px' }} />
+                    <ChatMessages />
+                    <Box sx={{ height: '70px' }} />
+                    <ChatFooter chatId={Number(chatId)} />
+                </Box>
+            }
+            {!chatId &&
+                <Box>Такой чат отсутствует!</Box>
+            }
+        </>
+
     )
 }

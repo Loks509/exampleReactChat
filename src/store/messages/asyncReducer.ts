@@ -3,8 +3,9 @@ import { createAppAsyncThunk } from "../useRedux";
 import { IitemMessage } from "./type";
 
 export const getMessages = createAppAsyncThunk('messages/getMessages',
-    async (chatId: number, thunkApi) => {
-        return (await import("./examples/messagesOnChat6.json")).default
-        return (await thunkApi.extra.clientApi.get<IpayloadApiWithoutPaginator<IitemMessage[]>>(`chat/${chatId}`)).data.data;
+    async (data: { chat_id: number, last_id?: number }, thunkApi) => {
+        return (await thunkApi.extra.clientApi.get<IpayloadApiWithoutPaginator<IitemMessage[]>>(`message`, {
+            params: data
+        })).data.data;
     }
 )

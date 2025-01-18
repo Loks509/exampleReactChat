@@ -12,6 +12,7 @@ export interface IitemMessage {
     id: number,
     message: string,
     chat_id: number,
+    user_id: number,
     viewed_at: string | null,
     created_at: string,
     updated_at: string,

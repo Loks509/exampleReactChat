@@ -28,6 +28,12 @@ const darkTheme =
         '&:hover': {
             opacity: 0.5,
         },
+        chat: {
+            selfMessageTextColor: 'white',
+            selfMessageBackground: '#1c1c1c',
+            someoneMessageTextColor: 'white',
+            someoneMessageBackground: '#0e0e0e',
+        }
     },
     // props: {
     //     MuiPaper: {

@@ -4,10 +4,15 @@ import { IitemChat } from "./type";
 
 export const getChats = createAppAsyncThunk('chats/getChats',
     async (user_id: number | undefined, thunkApi) => {
-        return ((await import("./examples/chats.json")).default);
         return (await thunkApi.extra.clientApi.get<IpayloadApiWithoutPaginator<IitemChat[]>>('chat',
             { params: { user_id: user_id || thunkApi.getState().user.id } }
         )).data.data;
+    }
+)
+
+export const getChat = createAppAsyncThunk('chats/getChat',
+    async (chatId: number, thunkApi) => {
+        return (await thunkApi.extra.clientApi.get<IpayloadApiWithoutPaginator<IitemChat[]>>(`chat/${chatId}`)).data.data[0];
     }
 )
 
@@ -18,4 +23,3 @@ export const deleteChats = createAppAsyncThunk('chats/deleteChats',
 )
 
 //TODO написать создание чата
-//TODO написать удаление чата

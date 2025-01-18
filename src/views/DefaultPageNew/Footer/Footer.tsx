@@ -46,9 +46,7 @@ function Footer() {
                     <NavigationButtom />
                 </>
             ) : (
-                <ThemeProvider theme={themeLaptop}>
-                    <FooterMob />
-                </ThemeProvider>
+                <></>
             )}
         </>
     )

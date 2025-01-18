@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { initialState } from "./initialState";
-import { getChats } from "./asyncReducer";
+import { getChat, getChats } from "./asyncReducer";
 
 const chatsSlice = createSlice({
     name: 'chats',
@@ -19,6 +19,11 @@ const chatsSlice = createSlice({
         
         builder.addCase(getChats.rejected, (state) => {
             state.loadingStatus = 'failed';
+        });
+
+        builder.addCase(getChat.fulfilled, (state, action) => {
+            state.selectedChat = action.payload;
+            state.loadingStatus = 'idle';
         });
 
     },

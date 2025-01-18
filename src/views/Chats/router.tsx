@@ -11,7 +11,6 @@ export const router: RouteObjectExtend[] = [
         element: <ChatList />,
     },
     {
-        title: "Some chat",
         path: ":chatId",
         element: <SelectedChat />
     }

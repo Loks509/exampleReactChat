@@ -26,6 +26,12 @@ const lightTheme =
         '&:hover': {
             opacity: 0.5,
         },
+        chat: {
+            selfMessageTextColor: 'white',
+            selfMessageBackground: '#1976d2',
+            someoneMessageTextColor: 'black',
+            someoneMessageBackground: '#f6f6f6',
+        }
     },
 }
 export default lightTheme
