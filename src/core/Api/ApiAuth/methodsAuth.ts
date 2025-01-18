@@ -1,54 +1,60 @@
-import { clientAuth } from "./axiosClientAuth";
-
-import { getCurrentAccessToken, getCurrentRefreshToken, setAccessTokens, setRefreshedTokens, clearTokens } from "../functionsStorage";
+import { getCurrentAccessToken, setAccessTokens, clearTokens } from "../functionsStorage";
 
 import { IpayloadApiWithoutPaginator } from "../../../store/store";
-import { ITokenData, ITokens } from "../../../store/user/type";
+import { iUserData } from "../../../store/user/type";
+import { clientApi } from "../ApiData/axiosClient";
 
-export function login(login: string, password: string) {
-    return clientAuth.post<IpayloadApiWithoutPaginator<ITokenData & ITokens>>(
-        "authentication",
-        { 'login': login, 'password': password }
-    ).then((response) => {
+interface responseOnSignInAndSignUp {
+    token: string,
+    user: iUserData
+}
+
+export function signIn(email: string, password: string) {
+    return clientApi.post<IpayloadApiWithoutPaginator<responseOnSignInAndSignUp>>(
+        "signin",
+        { email, password }
+    ).then(async (response) => {
         if (response.data.status == 'Successfully') {
-            setAccessTokens(response.data.data.a_token)
-            setRefreshedTokens(response.data.data.r_token)
+            setAccessTokens(response.data.data.token);
+            const store = (await import("../../../store/store"));
+            const setUserData = (await import("../../../store/user/userSlice")).setUserData;
+
+            store.store.dispatch(setUserData(response.data.data.user))
         }
         return response.data;
     })
 }
 
-export function logout() {
-    return clientAuth.post(
-        "logout",
-        { 'a_token': getCurrentAccessToken(), 'r_token': getCurrentRefreshToken() }
+export function signUp(email: string, password: string, name: string) {
+    return clientApi.post<IpayloadApiWithoutPaginator<responseOnSignInAndSignUp>>(
+        "signup",
+        { email, password, name }
+    ).then(async (response) => {
+        if (response.data.status == 'Successfully') {
+            setAccessTokens(response.data.data.token)
+            const store = (await import("../../../store/store"));
+            const setUserData = (await import("../../../store/user/userSlice")).setUserData;
+
+            store.store.dispatch(setUserData(response.data.data.user))
+        }
+        return response.data;
+    })
+}
+
+export async function logout() {
+    clearTokens();
+    const store = (await import("../../../store/store"));
+    const unsetUser = (await import("../../../store/user/userSlice")).unsetUser;
+    store.store.dispatch(unsetUser());
+    return new Promise(() => { })
+    
+    return clientApi.post(
+        "logout"
     ).then(async (resp) => {
         clearTokens();
         const store = (await import("../../../store/store"));
-        const unsetUser = (await import("../../../store/user/userSlice"));
-        store.store.dispatch(unsetUser.unsetUser());
+        const unsetUser = (await import("../../../store/user/userSlice")).unsetUser;
+        store.store.dispatch(unsetUser());
         return resp;
     });
 }
-
-export function updateRefreshToken() {
-    return clientAuth.post<IpayloadApiWithoutPaginator<ITokens>>(
-        "refresh",
-        { 'a_token': getCurrentAccessToken(), 'r_token': getCurrentRefreshToken() }
-    ).then((response) => {
-        if (response.data.status == 'Successfully') {
-            setAccessTokens(response.data.data.a_token)
-            setRefreshedTokens(response.data.data.r_token)
-        }
-        return response;
-    });
-}
-
-
-//пока безсполезна
-// function checkToken() {
-//     return clientAuth.post(
-//         "check",
-//         { 'a_token': getCurrentAccessToken() }
-//     );
-// }

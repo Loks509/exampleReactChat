@@ -1,7 +1,7 @@
 import { Box, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, TextField, Typography } from "@mui/material";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import ButtonInput from "../Buttons/ButtonInput/ButtonInput";
-import { login } from "../../../core/Api/ApiAuth/methodsAuth";
+import { signIn, signUp } from "../../../core/Api/ApiAuth/methodsAuth";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { setUserId } from "../../../store/user/userSlice";
@@ -17,7 +17,8 @@ interface DialogAuthProps {
 export default function DialogAuth({ isOpen, handleClose }: DialogAuthProps) {
     const [mode, setMode] = useState<'login' | 'register'>('login');
 
-    const [dataLogin, setDataLogin] = useState<{ login: string, password: string, email?: string, passwordRepeat?: string }>({
+    const [dataLogin, setDataLogin] = useState<{ name: string, login: string, password: string, email: string, passwordRepeat: string }>({
+        name: '',
         login: '',
         password: '',
         email: '',
@@ -35,6 +36,7 @@ export default function DialogAuth({ isOpen, handleClose }: DialogAuthProps) {
 
     useEffect(() => {
         setDataLogin({
+            name: '',
             login: '',
             password: '',
             email: '',
@@ -47,30 +49,22 @@ export default function DialogAuth({ isOpen, handleClose }: DialogAuthProps) {
     function logInF(event: FormEvent) {
         event.preventDefault();
 
-        login(dataLogin.login, dataLogin.password)
-            .then((resp) => {
-                if (resp.data?.sub) {
-                    /* @ts-ignore */
-                    dispatch(setUserId(resp.data));
-                    toast.success("Вы успешно авторизованы!");
-                    handleClose();
-                    return resp.data.sub;
-                } else {
-                    throw new Error();
-                }
+        signIn(dataLogin.login, dataLogin.password)
+            .then(() => {
+                toast.success("Вы успешно авторизованы!");
+                handleClose();
             })
-            .catch(error => {
-                if (error.status === 400)
-                    toast.error("Неверный логин и/или пароль");
+            .catch(() => {
+                toast.error("Неверный логин и/или пароль");
             })
     }
 
     function registerF(event: FormEvent) {
         event.preventDefault();
 
-        if(dataLogin.password === dataLogin.passwordRepeat){
-            console.debug("auth");
-        }else{
+        if (dataLogin.password === dataLogin.passwordRepeat) {
+            signUp(dataLogin.email, dataLogin.password, dataLogin.name)
+        } else {
             toast.error("Пароли не совпадают!");
         }
     }
@@ -171,6 +165,7 @@ export default function DialogAuth({ isOpen, handleClose }: DialogAuthProps) {
                         <Divider />
                         <DialogContent>
                             <Stack direction="column" spacing={3} my={2}>
+                                <TextField variant="outlined" label="ФИО" name="name" value={dataLogin.name} onChange={changeData} autoComplete="on" />
                                 <TextField variant="outlined" label="Логин" name="login" value={dataLogin.login} onChange={changeData} autoComplete="on" />
                                 <TextField variant="outlined" label="Электронная почта" name="email" value={dataLogin.email || ''} onChange={changeData} autoComplete="on" />
                                 <TextFieldPassword value={dataLogin.password} onChange={changeData} name={"password"} label={"Пароль"} />

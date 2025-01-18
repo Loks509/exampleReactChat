@@ -1,5 +1,5 @@
 import { createAxiosClient } from "./createAxiosClient";
-import { getCurrentAccessToken, getCurrentRefreshToken, clearTokens } from "../functionsStorage";
+import { getCurrentAccessToken, clearTokens } from "../functionsStorage";
 import { logout } from "../ApiAuth/methodsAuth";
 
 const clientApi = createAxiosClient({
@@ -11,7 +11,6 @@ const clientApi = createAxiosClient({
         }
     },
     getCurrentAccessToken,
-    getCurrentRefreshToken,
     clearTokens,
     logout
 })

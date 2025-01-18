@@ -17,6 +17,7 @@ import { hideModal } from './store/modalAuth/slice';
 import { getCurrentAccessToken } from './core/Api/functionsStorage';
 import router from './router';
 import { useAppDispatch } from './store/useRedux';
+import { getCurrentUser } from './store/user/asyncReducer';
 
 function App() {
     const accessToken = getCurrentAccessToken();
@@ -24,12 +25,9 @@ function App() {
 
     useEffect(() => {
         if (accessToken) {
-            const userData = processAccessToken(accessToken);
-
-            dispatch(setUserId(userData.sub));
+            dispatch(getCurrentUser());
         }
     }, [accessToken])
-
 
 
     return (
@@ -44,7 +42,6 @@ function App() {
                 </ThemeProviderMUI>
             </BreadcrumbsProvider>
         </>
-
     )
 }
 
