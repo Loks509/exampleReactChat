@@ -37,14 +37,16 @@ export default function SelectedChat() {
             forceTLS: false,
         });
 
+        /*@ts-ignore */
         echo.channel('chat-channel').listen('.message-sent', (data) => {
             console.log('Received event:', data.channel);
         });
 
+        /*@ts-ignore */
         echo.channel('chat-channel').listenToAll((data) => {
             console.log('Received event:', data.channel);
         })
-        
+
         if (chatId) {
             dispatch(getMessages({ chat_id: Number(chatId) }))
             dispatch(getChat(Number(chatId)));
