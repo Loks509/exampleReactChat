@@ -23,7 +23,7 @@ export default function MessageItem(props: MessageItemProps) {
     const isReaded = props.itemMessage.viewed_at === null;
 
     useEffect(() => {
-        if (props.itemMessage.viewed_at === null && !isPending.current) {
+        if (props.itemMessage.viewed_at === null && !isPending.current && !isMyMessage) {
             dispatch(watchMessage(props.itemMessage.id));
             isPending.current = true;
         }

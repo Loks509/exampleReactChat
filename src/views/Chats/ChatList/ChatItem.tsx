@@ -3,10 +3,11 @@ import { ListItem, ListItemButton, ListItemProps, ListItemText, Stack, Typograph
 import { IitemChat } from "../../../store/chats/type"
 import getFormatDateAndTimeFromPostgres from "../../../features/functions"
 import { useAppSelector } from "../../../store/useRedux"
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircle } from "@fortawesome/free-solid-svg-icons"
 import { Link } from "react-router-dom"
+import { useSocketInstance } from "../../../core/Providers/SocketProvider/SocketProvider"
 
 interface ChatItemProps {
     itemChat: IitemChat,
@@ -16,11 +17,31 @@ interface ChatItemProps {
 export default function ChatItem(props: ChatItemProps) {
     const userId = useAppSelector(state => state.user.id);
     const theme = useTheme();
+    const socketInstance = useSocketInstance();
 
     const nameChat = useMemo(() =>
         userId == props.itemChat.user1.id ? props.itemChat.user2.name : props.itemChat.user1.name,
         [props.itemChat.id, userId]
     );
+
+    useEffect(() => {
+
+        const onNewChat = (data: { chat: IitemChat }) => {
+            console.debug('new chats', data);
+        }
+
+        if (socketInstance != null) {
+            socketInstance.channel(`update-chats-${props.itemChat.id}`)
+                .listen('.update-chats', onNewChat);
+        }
+
+        return () => {
+            if (socketInstance != null) {
+                socketInstance.channel(`update-chats-${props.itemChat.id}`)
+                .stopListening('.update-chats', onNewChat);
+            }
+        }
+    }, [socketInstance])
 
 
     return (

@@ -6,7 +6,7 @@ import dayjs from "dayjs"
 
 export const chatsAdapter = createEntityAdapter({
     selectId: (itemChat: IitemChat) => itemChat.id,
-    sortComparer: (a, b) => dayjs(a.latest_message.created_at).unix() > dayjs(b.latest_message.created_at).unix() ? 1 : -1,
+    sortComparer: (a, b) => dayjs(a.latest_message.created_at).unix() < dayjs(b.latest_message.created_at).unix() ? 1 : -1,
 })
 
 export interface IcreateChatRequest {

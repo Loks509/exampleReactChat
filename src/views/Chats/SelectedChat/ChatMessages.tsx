@@ -2,13 +2,13 @@ import { Box } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../store/useRedux";
 import { messagesSelectors } from "../../../store/messages/selectors";
 import MessageItem from "./MessageItem";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ActionWithMessage from "./ActionWithMessage";
 import { IitemMessage } from "../../../store/messages/type";
 import { getMessages } from "../../../store/messages/asyncReducer";
 import useEffectAuth from "../../../core/hooks/useEffectAuth";
 import { setMessage, deleteMessage } from "../../../store/messages/slice";
-import Echo from 'laravel-echo'
+import { useSocketInstance } from "../../../core/Providers/SocketProvider/SocketProvider";
 
 interface ChatMessagesProps {
     chatId: number
@@ -17,17 +17,7 @@ interface ChatMessagesProps {
 export default function ChatMessages(props: ChatMessagesProps) {
     const dispatch = useAppDispatch()
     const isScroll = useRef(true);
-
-    const echo = useMemo(() => {
-        return new Echo({
-            broadcaster: 'reverb',
-            key: import.meta.env.VITE_KEY_REVERB,
-            wsHost: import.meta.env.VITE_SOCKET_ADDR,
-            wsPort: import.meta.env.VITE_SOCKET_PORT,
-            forceTLS: false,
-            enabledTransports: ['ws']
-        });
-    }, [])
+    const socketInstance = useSocketInstance();
 
     const endMessagesRef = useRef<HTMLDivElement | null>(null);
     const [contextMenu, setContextMenu] = useState<{
@@ -63,34 +53,36 @@ export default function ChatMessages(props: ChatMessagesProps) {
             dispatch(deleteMessage(data.message))
         }
 
-        if (props.chatId > 0) {
-            echo.channel(`create-message-${props.chatId}`)
+        if (props.chatId > 0 && socketInstance != null) {
+            socketInstance.channel(`create-message-${props.chatId}`)
                 .listen('.create-message', onNewMessage);
 
-            echo.channel(`change-message-${props.chatId}`)
+            socketInstance.channel(`change-message-${props.chatId}`)
                 .listen('.change-message', onNewMessage);
 
-            echo.channel(`delete-message-${props.chatId}`)
+            socketInstance.channel(`delete-message-${props.chatId}`)
                 .listen('.delete-message', onDeleteMessage);
 
-            echo.channel(`watch-message-${props.chatId}`)
+            socketInstance.channel(`watch-message-${props.chatId}`)
                 .listen('.watch-message', onNewMessage);
         }
 
         return () => {
-            echo.channel(`create-message-${props.chatId}`)
-                .stopListening('.create-message', onNewMessage);
+            if (props.chatId > 0 && socketInstance != null) {
+                socketInstance.channel(`create-message-${props.chatId}`)
+                    .stopListening('.create-message', onNewMessage);
 
-            echo.channel(`change-message-${props.chatId}`)
-                .stopListening('.change-message', onNewMessage);
+                socketInstance.channel(`change-message-${props.chatId}`)
+                    .stopListening('.change-message', onNewMessage);
 
-            echo.channel(`delete-message-${props.chatId}`)
-                .stopListening('.delete-message', onDeleteMessage);
+                socketInstance.channel(`delete-message-${props.chatId}`)
+                    .stopListening('.delete-message', onDeleteMessage);
 
-            echo.channel(`watch-message-${props.chatId}`)
-                .stopListening('.watch-message', onNewMessage);
+                socketInstance.channel(`watch-message-${props.chatId}`)
+                    .stopListening('.watch-message', onNewMessage);
+            }
         }
-    }, [props.chatId])
+    }, [props.chatId, socketInstance])
 
 
     useEffect(() => {
