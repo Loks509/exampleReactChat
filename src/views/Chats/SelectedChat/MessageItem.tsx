@@ -6,7 +6,7 @@ import getFormatDateAndTimeFromPostgres from "../../../features/functions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { watchMessage } from "../../../store/messages/asyncReducer";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 interface MessageItemProps {
     itemMessage: IitemMessage,
@@ -22,10 +22,12 @@ export default function MessageItem(props: MessageItemProps) {
     const isMyMessage = props.itemMessage.user_id == userId;
     const isReaded = props.itemMessage.viewed_at === null;
 
-    if(props.itemMessage.viewed_at === null && !isPending.current){
-        dispatch(watchMessage(props.itemMessage.id));
-        isPending.current = true;
-    }
+    useEffect(() => {
+        if (props.itemMessage.viewed_at === null && !isPending.current) {
+            dispatch(watchMessage(props.itemMessage.id));
+            isPending.current = true;
+        }
+    }, [props.itemMessage.viewed_at, isPending.current])
 
     return (
         <Grid2 container sx={{ justifyContent: isMyMessage ? 'end' : '', alignItems: 'flex-end', my: 2 }}>
@@ -39,7 +41,7 @@ export default function MessageItem(props: MessageItemProps) {
                     maxWidth: '50%',
                     color: isMyMessage ? 'chat.selfMessageTextColor' : 'chat.someoneMessageTextColor',
                 }}
-                >
+            >
                 <Stack direction="row">
                     <Typography>
                         {props.itemMessage.message}
