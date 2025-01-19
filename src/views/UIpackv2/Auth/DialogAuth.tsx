@@ -15,9 +15,8 @@ interface DialogAuthProps {
 export default function DialogAuth({ isOpen, handleClose }: DialogAuthProps) {
     const [mode, setMode] = useState<'login' | 'register'>('login');
 
-    const [dataLogin, setDataLogin] = useState<{ name: string, login: string, password: string, email: string, passwordRepeat: string }>({
+    const [dataLogin, setDataLogin] = useState<{ name: string, password: string, email: string, passwordRepeat: string }>({
         name: '',
-        login: '',
         password: '',
         email: '',
         passwordRepeat: '',
@@ -35,7 +34,6 @@ export default function DialogAuth({ isOpen, handleClose }: DialogAuthProps) {
     useEffect(() => {
         setDataLogin({
             name: '',
-            login: '',
             password: '',
             email: '',
             passwordRepeat: '',
@@ -45,7 +43,7 @@ export default function DialogAuth({ isOpen, handleClose }: DialogAuthProps) {
     function logInF(event: FormEvent) {
         event.preventDefault();
 
-        signIn(dataLogin.login, dataLogin.password)
+        signIn(dataLogin.email, dataLogin.password)
             .then(() => {
                 toast.success("Вы успешно авторизованы!");
                 handleClose();
@@ -109,7 +107,7 @@ export default function DialogAuth({ isOpen, handleClose }: DialogAuthProps) {
                         <Divider />
                         <DialogContent>
                             <Stack direction="column" spacing={3} my={2}>
-                                <TextField variant="outlined" label="Логин" name="login" value={dataLogin.login || ''} onChange={changeData} autoComplete="on" />
+                                <TextField variant="outlined" label="Почта" name="email" value={dataLogin.email || ''} onChange={changeData} autoComplete="on" />
                                 <TextFieldPassword value={dataLogin.password || ''} onChange={changeData} name={"password"} label={"Пароль"} />
                             </Stack>
                         </DialogContent>
@@ -162,7 +160,6 @@ export default function DialogAuth({ isOpen, handleClose }: DialogAuthProps) {
                         <DialogContent>
                             <Stack direction="column" spacing={3} my={2}>
                                 <TextField variant="outlined" label="ФИО" name="name" value={dataLogin.name} onChange={changeData} autoComplete="on" />
-                                <TextField variant="outlined" label="Логин" name="login" value={dataLogin.login} onChange={changeData} autoComplete="on" />
                                 <TextField variant="outlined" label="Электронная почта" name="email" value={dataLogin.email || ''} onChange={changeData} autoComplete="on" />
                                 <TextFieldPassword value={dataLogin.password} onChange={changeData} name={"password"} label={"Пароль"} />
                                 <TextFieldPassword error={isErrorRepeatPassword} helperText={isErrorRepeatPassword ? "Пароли не совпадают" : undefined} value={dataLogin.passwordRepeat} onChange={changeData} name={"passwordRepeat"} label={"Повторите пароль"} />
