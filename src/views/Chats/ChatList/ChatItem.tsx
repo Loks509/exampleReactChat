@@ -2,12 +2,13 @@
 import { ListItem, ListItemButton, ListItemProps, ListItemText, Stack, Typography, useTheme } from "@mui/material"
 import { IitemChat } from "../../../store/chats/type"
 import getFormatDateAndTimeFromPostgres from "../../../features/functions"
-import { useAppSelector } from "../../../store/useRedux"
+import { useAppDispatch, useAppSelector } from "../../../store/useRedux"
 import { useEffect, useMemo } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCircle } from "@fortawesome/free-solid-svg-icons"
 import { Link } from "react-router-dom"
 import { useSocketInstance } from "../../../core/Providers/SocketProvider/SocketProvider"
+import { setChat } from "../../../store/chats/slice"
 
 interface ChatItemProps {
     itemChat: IitemChat,
@@ -18,6 +19,7 @@ export default function ChatItem(props: ChatItemProps) {
     const userId = useAppSelector(state => state.user.id);
     const theme = useTheme();
     const socketInstance = useSocketInstance();
+    const dispatch = useAppDispatch();
 
     const nameChat = useMemo(() =>
         userId == props.itemChat.user1.id ? props.itemChat.user2.name : props.itemChat.user1.name,
@@ -27,7 +29,8 @@ export default function ChatItem(props: ChatItemProps) {
     useEffect(() => {
 
         const onNewChat = (data: { chat: IitemChat }) => {
-            console.debug('new chats', data);
+            console.debug(data)
+            dispatch(setChat(data.chat));
         }
 
         if (socketInstance != null) {

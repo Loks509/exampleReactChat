@@ -10,4 +10,8 @@ const resetChats: CaseReducer<IinitialState> = (state) => {
     state.endChats = false;
 }
 
-export const reducers = { setSelectedChat, resetChats }
+const setChat: CaseReducer<IinitialState, PayloadAction<IitemChat>> = (state, action) => {
+    chatsAdapter.setOne(state.chats, action.payload);
+}
+
+export const reducers = { setSelectedChat, resetChats, setChat }

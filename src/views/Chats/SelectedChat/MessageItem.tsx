@@ -33,7 +33,7 @@ export default function MessageItem(props: MessageItemProps) {
         <Grid2 container sx={{ justifyContent: isMyMessage ? 'end' : '', alignItems: 'flex-end', my: 2 }}>
             {isReaded && isMyMessage && <FontAwesomeIcon icon={faCircle} color={theme.palette.chat.pointNotRead} size='xs' />}
             <Paper
-                onContextMenu={props.onContextMenu}
+                onContextMenu={isMyMessage ? props.onContextMenu : undefined}
                 sx={{
                     backgroundColor: isMyMessage ? 'chat.selfMessageBackground' : 'chat.someoneMessageBackground',
                     padding: 1,
