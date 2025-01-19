@@ -11,7 +11,6 @@ import { getChat } from "../../../store/chats/asyncReducer";
 import { useMemo } from "react";
 import { unsetMessagesAll } from "../../../store/messages/slice";
 import { setSelectedChat } from "../../../store/chats/slice";
-import Echo from 'laravel-echo'
 
 
 export default function SelectedChat() {
@@ -29,24 +28,6 @@ export default function SelectedChat() {
     ) || '';
 
     useEffectAuth(() => {
-        const echo = new Echo({
-            broadcaster: 'reverb',
-            key: 'dc3kzqgkdtak2brpw91d',
-            wsHost: '138.124.55.208',
-            wsPort: 9001,
-            forceTLS: false,
-        });
-
-        /*@ts-ignore */
-        echo.channel('chat-channel').listen('.message-sent', (data) => {
-            console.log('Received event:', data.channel);
-        });
-
-        /*@ts-ignore */
-        echo.channel('chat-channel').listenToAll((data) => {
-            console.log('Received event:', data.channel);
-        })
-
         if (chatId) {
             dispatch(getMessages({ chat_id: Number(chatId) }))
             dispatch(getChat(Number(chatId)));

@@ -42,4 +42,4 @@ const messagesSlice = createSlice({
 })
 
 export default messagesSlice.reducer
-export const { setEditingMessage, unsetEditingMessage, unsetMessagesAll } = messagesSlice.actions
+export const { setEditingMessage, unsetEditingMessage, unsetMessagesAll, setMessage } = messagesSlice.actions

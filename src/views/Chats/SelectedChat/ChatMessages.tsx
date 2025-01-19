@@ -6,6 +6,9 @@ import { useEffect, useRef, useState } from "react";
 import ActionWithMessage from "./ActionWithMessage";
 import { IitemMessage } from "../../../store/messages/type";
 import { getMessages } from "../../../store/messages/asyncReducer";
+import useEffectAuth from "../../../core/hooks/useEffectAuth";
+import { setMessage } from "../../../store/messages/slice";
+import Echo from 'laravel-echo'
 
 interface ChatMessagesProps {
     chatId: number
@@ -33,6 +36,28 @@ export default function ChatMessages(props: ChatMessagesProps) {
             isScroll.current = false;
         }
     }, [messages, isScroll])
+
+    useEffectAuth(() => {
+        if (props.chatId > 0) {
+            const onNewMessage = (data: { message: IitemMessage }) => {
+                console.log(data);
+                dispatch(setMessage(data.message))
+            }
+
+
+            const echo = new Echo({
+                broadcaster: 'reverb',
+                key: 'dc3kzqgkdtak2brpw91d',
+                wsHost: '138.124.55.208',
+                wsPort: 9001,
+                forceTLS: false,
+                enabledTransports: ['ws']
+            });
+
+            echo.channel(`last-message-${props.chatId}`)
+                .listen('.update-last-message', onNewMessage);
+        }
+    }, [])
 
 
     useEffect(() => {
@@ -67,19 +92,6 @@ export default function ChatMessages(props: ChatMessagesProps) {
     const handleClose = () => {
         setContextMenu(null);
     };
-
-
-    // const handleScroll = (e) => {
-    //     const top = e.target.scrollTop;
-    //     const currentScrollHeight = e.target.scrollHeight;
-    //     const clientHeight = e.target.clientHeight;
-
-    //     // Check if the user has scrolled to the top
-    //     if (top === 0 && !isLoading) {
-    //         dispatch(getMessages({ chat_id: Number(chatId), last_id: }))
-    //     }
-    // };
-
 
     return (
         <Box>

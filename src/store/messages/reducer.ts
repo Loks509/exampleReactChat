@@ -1,5 +1,5 @@
 import { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
-import { IeditingMessage, IinitialState, messagesAdapter } from "./type";
+import { IeditingMessage, IinitialState, IitemMessage, messagesAdapter } from "./type";
 import { initialStateEditingMessage } from "./initialState";
 
 const setEditingMessage: CaseReducer<IinitialState, PayloadAction<IeditingMessage>> = (state, action) => {
@@ -15,4 +15,8 @@ const unsetMessagesAll: CaseReducer<IinitialState> = (state) => {
     state.endMessages = false;
 }
 
-export const reducers = { setEditingMessage, unsetEditingMessage, unsetMessagesAll }
+const setMessage: CaseReducer<IinitialState, PayloadAction<IitemMessage>> = (state, action) => {
+    messagesAdapter.setOne(state.messages, action.payload);
+}
+
+export const reducers = { setEditingMessage, unsetEditingMessage, unsetMessagesAll, setMessage }

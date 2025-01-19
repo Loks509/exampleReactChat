@@ -3,9 +3,9 @@
 interface ImportMetaEnv {
     readonly VITE_BASE_URL_STATIC: number,
     readonly VITE_BASE_URL: string,
-    readonly VITE_EMPTY_REFRESH: string,
-    readonly VITE_INVALID_SIGNATURE: string,
-    readonly VITE_TIMEOUT_ACCESS: string,
+    readonly VITE_SOCKET_PORT: number,
+    readonly VITE_SOCKET_ADDR: string,
+    readonly VITE_KEY_REVERB: string,
 }
 
 interface ImportMeta {
