@@ -13,6 +13,9 @@ const chatsSlice = createSlice({
         });
 
         builder.addCase(getChats.fulfilled, (state, action) => {
+            if(action.payload.length == 0){
+                state.endChats = true;
+            }
             state.chats.push(...action.payload);
             state.loadingStatus = 'idle';
         });

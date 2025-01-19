@@ -7,6 +7,7 @@ const setSelectedChat: CaseReducer<IinitialState, PayloadAction<IitemChat | null
 
 const resetChats: CaseReducer<IinitialState> = (state) => {
     state.chats = [];
+    state.endChats = false;
 }
 
 export const reducers = { setSelectedChat, resetChats }

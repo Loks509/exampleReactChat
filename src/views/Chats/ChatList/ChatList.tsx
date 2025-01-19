@@ -15,6 +15,7 @@ export default function Chatlist() {
 
     const chats = useAppSelector(state => state.chats.chats);
     const isLoading = useAppSelector(state => state.chats.loadingStatus) === 'loading';
+    const endChats = useAppSelector(state => state.chats.endChats);
 
     useEffectAuth(() => {
         dispatch(resetChats())
@@ -33,7 +34,7 @@ export default function Chatlist() {
         const onScrollListener = () => {
             const windowRelativeBottom = document.documentElement.getBoundingClientRect().bottom;
 
-            if (windowRelativeBottom < document.documentElement.clientHeight + 500 && !isLoading) {
+            if (windowRelativeBottom < document.documentElement.clientHeight + 500 && !isLoading && !endChats) {
                 dispatch(getChats(page));
                 setPage(page => page + 1);
             }

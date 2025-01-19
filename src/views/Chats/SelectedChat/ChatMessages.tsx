@@ -25,6 +25,7 @@ export default function ChatMessages(props: ChatMessagesProps) {
 
     const messages = useAppSelector(messagesSelectors.selectAll);
     const isLoading = useAppSelector(state => state.messages.loadingStatus) === 'loading';
+    const endMessages = useAppSelector(state => state.messages.endMessages);
 
     useEffect(() => {
         if (isScroll.current && messages.length > 0) {
@@ -36,7 +37,7 @@ export default function ChatMessages(props: ChatMessagesProps) {
 
     useEffect(() => {
         const onScrollListener = () => {
-            if (window.scrollY < 1000 && !isLoading) {
+            if (window.scrollY < 1000 && !isLoading && !endMessages) {
                 dispatch(getMessages({ chat_id: props.chatId, last_id: messages[0].id }))
             }
         }

@@ -9,7 +9,7 @@ import { Backdrop, Box, CircularProgress } from "@mui/material";
 import { useBreadcrumbs } from "../../../core/Providers/BreadcrumbsProvider/BreadcrumbsProvider";
 import { getChat } from "../../../store/chats/asyncReducer";
 import { useMemo } from "react";
-import { setMessagesAll } from "../../../store/messages/slice";
+import { unsetMessagesAll } from "../../../store/messages/slice";
 import { setSelectedChat } from "../../../store/chats/slice";
 import Echo from 'laravel-echo'
 
@@ -53,7 +53,7 @@ export default function SelectedChat() {
         }
 
         return () => {
-            dispatch(setMessagesAll([]));
+            dispatch(unsetMessagesAll());
             dispatch(setSelectedChat(null));
         }
     }, [chatId])

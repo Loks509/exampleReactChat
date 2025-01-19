@@ -18,5 +18,6 @@ export interface IitemChat {
 }
 export interface IinitialState extends IthunkFields {
     chats: IitemChat[],
+    endChats: boolean,
     selectedChat: IitemChat | null,
 }

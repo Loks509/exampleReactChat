@@ -15,6 +15,9 @@ const messagesSlice = createSlice({
         });
 
         builder.addCase(getMessages.fulfilled, (state, action) => {
+            if(action.payload.length == 0){
+                state.endMessages = true;
+            }
             messagesAdapter.addMany(state.messages, action.payload);
             state.loadingStatus = 'idle';
         });
@@ -39,4 +42,4 @@ const messagesSlice = createSlice({
 })
 
 export default messagesSlice.reducer
-export const { setEditingMessage, unsetEditingMessage, setMessagesAll } = messagesSlice.actions
+export const { setEditingMessage, unsetEditingMessage, unsetMessagesAll } = messagesSlice.actions

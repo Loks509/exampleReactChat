@@ -25,6 +25,7 @@ export interface IitemMessage {
 
 export interface IinitialState extends IthunkFields {
     chatInfo?: IitemChat,
+    endMessages: boolean,
     loadingStatusEditing: IloadingStatus,
     editingMessage: IeditingMessage,
     messages: EntityState<IitemMessage, number>
