@@ -1,7 +1,7 @@
-import { IinitialState } from "./type";
+import { chatsAdapter, IinitialState } from "./type";
 
 export const initialState: IinitialState = {
-    chats: [],
+    chats: chatsAdapter.getInitialState(),
     endChats: false,
     selectedChat: null,
     loadingStatus: 'idle',

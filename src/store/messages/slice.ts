@@ -18,7 +18,7 @@ const messagesSlice = createSlice({
             if(action.payload.length == 0){
                 state.endMessages = true;
             }
-            messagesAdapter.addMany(state.messages, action.payload);
+            messagesAdapter.setMany(state.messages, action.payload);
             state.loadingStatus = 'idle';
         });
 

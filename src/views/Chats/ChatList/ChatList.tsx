@@ -7,13 +7,14 @@ import ModalCreateChat from "../ModalCreateChat/ModalCreateChat";
 import ButtonSave from "../../UIpackv2/Buttons/ButtonSave/ButtonSave";
 import { useEffect, useState } from "react";
 import { resetChats } from "../../../store/chats/slice";
+import { chatsSelectors } from "../../../store/chats/selectors";
 
 export default function Chatlist() {
     const dispatch = useAppDispatch();
     const [isOpen, setOpen] = useState(false);
     const [page, setPage] = useState(2);
 
-    const chats = useAppSelector(state => state.chats.chats);
+    const chats = useAppSelector(chatsSelectors.selectAll);
     const isLoading = useAppSelector(state => state.chats.loadingStatus) === 'loading';
     const endChats = useAppSelector(state => state.chats.endChats);
 

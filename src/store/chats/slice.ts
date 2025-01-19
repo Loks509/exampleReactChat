@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { initialState } from "./initialState";
 import { getChat, getChats } from "./asyncReducer";
 import { reducers } from "./reducer";
+import { chatsAdapter } from "./type";
 
 const chatsSlice = createSlice({
     name: 'chats',
@@ -16,7 +17,7 @@ const chatsSlice = createSlice({
             if(action.payload.length == 0){
                 state.endChats = true;
             }
-            state.chats.push(...action.payload);
+            chatsAdapter.setMany(state.chats, action.payload)
             state.loadingStatus = 'idle';
         });
 

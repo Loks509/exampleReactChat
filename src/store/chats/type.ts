@@ -1,6 +1,13 @@
+import { createEntityAdapter, EntityState } from "@reduxjs/toolkit"
 import { IitemMessage } from "../messages/type"
 import { IthunkFields } from "../store"
 import { iUserData } from "../user/type"
+import dayjs from "dayjs"
+
+export const chatsAdapter = createEntityAdapter({
+    selectId: (itemChat: IitemChat) => itemChat.id,
+    sortComparer: (a, b) => dayjs(a.latest_message.created_at).unix() > dayjs(b.latest_message.created_at).unix() ? 1 : -1,
+})
 
 export interface IcreateChatRequest {
     message: string,
@@ -8,7 +15,7 @@ export interface IcreateChatRequest {
 }
 
 export interface IitemChat {
-    id: string,
+    id: number,
     user_id1: number,
     user_id2: number,
     created_at: string,
@@ -17,7 +24,7 @@ export interface IitemChat {
     latest_message: IitemMessage
 }
 export interface IinitialState extends IthunkFields {
-    chats: IitemChat[],
+    chats: EntityState<IitemChat, number>,
     endChats: boolean,
     selectedChat: IitemChat | null,
 }
