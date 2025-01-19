@@ -1,4 +1,4 @@
-import { ListItem, ListItemButton, ListItemProps, ListItemText, Stack, Typography, useTheme } from "@mui/material"
+import { Avatar, ListItem, ListItemButton, ListItemIcon, ListItemProps, ListItemText, Stack, Typography, useTheme } from "@mui/material"
 import { IitemChat } from "../../../store/chats/type"
 import getFormatDateAndTimeFromPostgres from "../../../features/functions"
 import { useAppSelector } from "../../../store/useRedux"
@@ -21,11 +21,17 @@ export default function ChatItem(props: ChatItemProps) {
         [props.itemChat.id, userId]
     );
 
-   
+
 
 
     return (
         <ListItem divider>
+            {props.itemChat.id == 101 &&
+                <ListItemIcon>
+                    <Avatar src="/public/asuna.jpg" />
+                </ListItemIcon>
+            }
+
             <ListItemButton component={Link} to={`/chat/${props.itemChat.id}`}>
                 <ListItemText>
                     <Typography>
