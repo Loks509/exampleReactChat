@@ -74,7 +74,7 @@ function Auth() {
             }
             {!isLogin &&
                 <>
-                    <Tooltip title="Личный кабинет">
+                    <Tooltip title="Авторизоваться">
                         <Box onClick={handleOpenUserMenu}
                             sx={{
                                 cursor: 'pointer',

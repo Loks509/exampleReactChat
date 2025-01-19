@@ -114,7 +114,7 @@ function Setting() {
         { name: 'Выход', action: logOutF },
     ];
     const settings2 = [
-        { name: <><colorMode.Toggler /> Сменить тему</>, action: colorMode.toggleColorMode },
+        { name: <><colorMode.Toggler /></>, action: colorMode.toggleColorMode },
     ];
 
     const themeMobile = useTheme();
