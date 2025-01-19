@@ -54,9 +54,6 @@ function Auth() {
             {isLogin &&
                 <Tooltip title="Личный кабинет">
                     <Box
-                        component={Link}
-                        to={"/portfolio/my"}
-                        target='_blank'
                         sx={{
                             marginRight: {
                                 md: "1.25rem",
