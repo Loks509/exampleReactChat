@@ -25,3 +25,9 @@ export const deleteMessage = createAppAsyncThunk('messages/deleteMessage',
         return (await thunkApi.extra.clientApi.delete<IpayloadApiWithoutPaginator<IitemMessage[]>>(`message/${messageId}`)).data.data;
     }
 )
+
+export const watchMessage = createAppAsyncThunk('messages/watchMessage',
+    async (messageId: number, thunkApi) => {
+        return (await thunkApi.extra.clientApi.patch<IpayloadApiWithoutPaginator<{ viewed_at: string }>>(`message/watch/${messageId}`)).data.data;
+    }
+)

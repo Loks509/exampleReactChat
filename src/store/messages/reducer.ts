@@ -19,4 +19,8 @@ const setMessage: CaseReducer<IinitialState, PayloadAction<IitemMessage>> = (sta
     messagesAdapter.setOne(state.messages, action.payload);
 }
 
-export const reducers = { setEditingMessage, unsetEditingMessage, unsetMessagesAll, setMessage }
+const deleteMessage: CaseReducer<IinitialState, PayloadAction<IitemMessage>> = (state, action) => {
+    messagesAdapter.removeOne(state.messages, action.payload.id)
+}
+
+export const reducers = { setEditingMessage, unsetEditingMessage, unsetMessagesAll, setMessage, deleteMessage }

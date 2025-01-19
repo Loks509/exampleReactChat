@@ -2,12 +2,12 @@ import { Box } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../../store/useRedux";
 import { messagesSelectors } from "../../../store/messages/selectors";
 import MessageItem from "./MessageItem";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import ActionWithMessage from "./ActionWithMessage";
 import { IitemMessage } from "../../../store/messages/type";
 import { getMessages } from "../../../store/messages/asyncReducer";
 import useEffectAuth from "../../../core/hooks/useEffectAuth";
-import { setMessage } from "../../../store/messages/slice";
+import { setMessage, deleteMessage } from "../../../store/messages/slice";
 import Echo from 'laravel-echo'
 
 interface ChatMessagesProps {
@@ -17,6 +17,17 @@ interface ChatMessagesProps {
 export default function ChatMessages(props: ChatMessagesProps) {
     const dispatch = useAppDispatch()
     const isScroll = useRef(true);
+
+    const echo = useMemo(() => {
+        return new Echo({
+            broadcaster: 'reverb',
+            key: import.meta.env.VITE_KEY_REVERB,
+            wsHost: import.meta.env.VITE_SOCKET_ADDR,
+            wsPort: import.meta.env.VITE_SOCKET_PORT,
+            forceTLS: false,
+            enabledTransports: ['ws']
+        });
+    }, [])
 
     const endMessagesRef = useRef<HTMLDivElement | null>(null);
     const [contextMenu, setContextMenu] = useState<{
@@ -37,27 +48,43 @@ export default function ChatMessages(props: ChatMessagesProps) {
         }
     }, [messages, isScroll])
 
+    useEffect(() => {
+        endMessagesRef.current?.scrollIntoView({ behavior: 'auto' });
+    }, [(messages[messages.length - 1] || {}).id])
+
     useEffectAuth(() => {
-        if (props.chatId > 0) {
-            const onNewMessage = (data: { message: IitemMessage }) => {
-                console.log(data);
-                dispatch(setMessage(data.message))
-            }
-
-
-            const echo = new Echo({
-                broadcaster: 'reverb',
-                key: 'dc3kzqgkdtak2brpw91d',
-                wsHost: '138.124.55.208',
-                wsPort: 9001,
-                forceTLS: false,
-                enabledTransports: ['ws']
-            });
-
-            echo.channel(`last-message-${props.chatId}`)
-                .listen('.update-last-message', onNewMessage);
+        const onNewMessage = (data: { message: IitemMessage }) => {
+            console.debug('create', data);
+            dispatch(setMessage(data.message))
         }
-    }, [])
+
+        const onDeleteMessage = (data: { message: IitemMessage }) => {
+            console.debug('delete', data);
+            dispatch(deleteMessage(data.message))
+        }
+
+        if (props.chatId > 0) {
+            echo.channel(`create-message-${props.chatId}`)
+                .listen('.create-message', onNewMessage);
+
+            echo.channel(`delete-message-${props.chatId}`)
+                .listen('.delete-message', onDeleteMessage);
+
+            echo.channel(`watch-message-${props.chatId}`)
+                .listen('.watch-message', onNewMessage);
+        }
+
+        return () => {
+            echo.channel(`create-message-${props.chatId}`)
+                .stopListening('.create-message', onNewMessage);
+
+            echo.channel(`delete-message-${props.chatId}`)
+                .stopListening('.delete-message', onDeleteMessage);
+
+            echo.channel(`watch-message-${props.chatId}`)
+                .stopListening('.watch-message', onNewMessage);
+        }
+    }, [props.chatId])
 
 
     useEffect(() => {
