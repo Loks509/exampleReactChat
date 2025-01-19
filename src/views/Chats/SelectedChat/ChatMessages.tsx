@@ -54,6 +54,11 @@ export default function ChatMessages(props: ChatMessagesProps) {
         }
 
         if (props.chatId > 0 && socketInstance != null) {
+            console.debug(`listen channel: create-message-${props.chatId}. listen event: .create-message`);
+            console.debug(`listen channel: change-message-${props.chatId}. listen event: .change-message`);
+            console.debug(`listen channel: delete-message-${props.chatId}. listen event: .delete-message`);
+            console.debug(`listen channel: watch-message-${props.chatId}. listen event: .watch-message`);
+
             socketInstance.channel(`create-message-${props.chatId}`)
                 .listen('.create-message', onNewMessage);
 

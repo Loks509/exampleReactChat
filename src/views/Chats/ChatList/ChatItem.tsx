@@ -31,6 +31,7 @@ export default function ChatItem(props: ChatItemProps) {
         }
 
         if (socketInstance != null) {
+            console.debug(`listen channel: update-chats-${props.itemChat.id}. listen event: .update-chats`);
             socketInstance.channel(`update-chats-${props.itemChat.id}`)
                 .listen('.update-chats', onNewChat);
         }
