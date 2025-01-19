@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Grid2, Paper, PaperProps, Stack, Typography, useTheme } from "@mui/material";
 import { IitemMessage } from "../../../store/messages/type";
 import { useAppDispatch, useAppSelector } from "../../../store/useRedux";
@@ -31,6 +30,7 @@ export default function MessageItem(props: MessageItemProps) {
 
     return (
         <Grid2 container sx={{ justifyContent: isMyMessage ? 'end' : '', alignItems: 'flex-end', my: 2 }}>
+            {/* @ts-ignore */}
             {isReaded && isMyMessage && <FontAwesomeIcon icon={faCircle} color={theme.palette.chat.pointNotRead} size='xs' />}
             <Paper
                 onContextMenu={isMyMessage ? props.onContextMenu : undefined}
@@ -51,6 +51,7 @@ export default function MessageItem(props: MessageItemProps) {
                     {getFormatDateAndTimeFromPostgres(props.itemMessage.created_at)}
                 </Typography>
             </Paper>
+            {/* @ts-ignore */}
             {isReaded && !isMyMessage && <FontAwesomeIcon icon={faCircle} color={theme.palette.chat.pointNotRead} size='xs' />}
         </Grid2>
 

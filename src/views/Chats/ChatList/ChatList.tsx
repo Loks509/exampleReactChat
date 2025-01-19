@@ -5,9 +5,11 @@ import { useAppDispatch, useAppSelector } from "../../../store/useRedux"
 import ChatItem from "./ChatItem";
 import ModalCreateChat from "../ModalCreateChat/ModalCreateChat";
 import ButtonSave from "../../UIpackv2/Buttons/ButtonSave/ButtonSave";
-import { useEffect, useState } from "react";
-import { resetChats } from "../../../store/chats/slice";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { resetChats, setChat } from "../../../store/chats/slice";
 import { chatsSelectors } from "../../../store/chats/selectors";
+import { IitemChat } from "../../../store/chats/type";
+import { useSocketInstance } from "../../../core/Providers/SocketProvider/SocketProvider";
 
 
 export default function Chatlist() {
@@ -18,7 +20,8 @@ export default function Chatlist() {
     const chats = useAppSelector(chatsSelectors.selectAll);
     const isLoading = useAppSelector(state => state.chats.loadingStatus) === 'loading';
     const endChats = useAppSelector(state => state.chats.endChats);
-
+    const userId = useAppSelector(state => state.user.id);
+    const socketInstance = useSocketInstance();
 
     useEffectAuth(() => {
         dispatch(resetChats())
@@ -33,7 +36,7 @@ export default function Chatlist() {
         setOpen(true);
     }
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const onScrollListener = () => {
             const windowRelativeBottom = document.documentElement.getBoundingClientRect().bottom;
 
@@ -48,7 +51,28 @@ export default function Chatlist() {
         return () => {
             window.removeEventListener('scroll', onScrollListener)
         }
-    }, [page, document.documentElement.getBoundingClientRect().bottom, document.documentElement.clientHeight])
+    }, [page, endChats, isLoading, document.documentElement.getBoundingClientRect().bottom, document.documentElement.clientHeight]);
+
+    useEffect(() => {
+        const onNewChat = (data: { chat: IitemChat }) => {
+            console.debug(data)
+            dispatch(setChat(data.chat));
+        }
+
+        if (socketInstance != null) {
+            console.debug(`listen channel: update-chats-${userId}. listen event: .update-chats`);
+
+            socketInstance.channel(`update-chats-${userId}`)
+                .listen('.update-chats', onNewChat);
+        }
+
+        return () => {
+            if (socketInstance != null) {
+                socketInstance.channel(`update-chats-${userId}`)
+                    .stopListening('.update-chats', onNewChat);
+            }
+        }
+    }, [socketInstance, userId]);
 
     // useEffect(() => {
     //     console.debug(document.documentElement.getBoundingClientRect())
