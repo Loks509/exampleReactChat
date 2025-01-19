@@ -1,4 +1,4 @@
-import { Backdrop, Box, CircularProgress, List, ListItem } from "@mui/material";
+import { Box, CircularProgress, List, ListItem } from "@mui/material";
 import useEffectAuth from "../../../core/hooks/useEffectAuth"
 import { getChats } from "../../../store/chats/asyncReducer";
 import { useAppDispatch, useAppSelector } from "../../../store/useRedux"
