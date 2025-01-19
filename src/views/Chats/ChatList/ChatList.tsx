@@ -1,4 +1,4 @@
-import { Backdrop, Box, CircularProgress, List } from "@mui/material";
+import { Backdrop, Box, CircularProgress, List, ListItem } from "@mui/material";
 import useEffectAuth from "../../../core/hooks/useEffectAuth"
 import { getChats } from "../../../store/chats/asyncReducer";
 import { useAppDispatch, useAppSelector } from "../../../store/useRedux"
@@ -6,16 +6,19 @@ import ChatItem from "./ChatItem";
 import ModalCreateChat from "../ModalCreateChat/ModalCreateChat";
 import ButtonSave from "../../UIpackv2/Buttons/ButtonSave/ButtonSave";
 import { useEffect, useState } from "react";
+import { resetChats } from "../../../store/chats/slice";
 
 export default function Chatlist() {
     const dispatch = useAppDispatch();
     const [isOpen, setOpen] = useState(false);
+    const [page, setPage] = useState(2);
 
     const chats = useAppSelector(state => state.chats.chats);
     const isLoading = useAppSelector(state => state.chats.loadingStatus) === 'loading';
 
     useEffectAuth(() => {
-        dispatch(getChats());
+        dispatch(resetChats())
+        dispatch(getChats(1));
     }, [])
 
     const handleClose = () => {
@@ -30,8 +33,9 @@ export default function Chatlist() {
         const onScrollListener = () => {
             const windowRelativeBottom = document.documentElement.getBoundingClientRect().bottom;
 
-            if (windowRelativeBottom > document.documentElement.clientHeight + 100 && !isLoading) {
-                console.debug('load')
+            if (windowRelativeBottom < document.documentElement.clientHeight + 500 && !isLoading) {
+                dispatch(getChats(page));
+                setPage(page => page + 1);
             }
         }
 
@@ -40,25 +44,26 @@ export default function Chatlist() {
         return () => {
             window.removeEventListener('scroll', onScrollListener)
         }
-    }, [])
+    }, [page, document.documentElement.getBoundingClientRect().bottom, document.documentElement.clientHeight])
 
     return (
         <Box sx={{ marginTop: 1 }}>
             <ButtonSave onClick={handleOpen}>Создать чат</ButtonSave>
-            {isLoading &&
-                <Backdrop open>
-                    <CircularProgress />
-                </Backdrop>
-            }
-            {!isLoading &&
-                <List>
-                    {
-                        chats.map(item =>
-                            <ChatItem itemChat={item} key={item.id} />
-                        )
-                    }
-                </List>
-            }
+
+            <List>
+                {
+                    chats.map(item =>
+                        <ChatItem itemChat={item} key={item.id} />
+                    )
+                }
+                {isLoading &&
+                    <ListItem sx={{ justifyContent: 'center' }}>
+                        <CircularProgress />
+                    </ListItem>
+                }
+
+
+            </List>
             <ModalCreateChat open={isOpen} handleClose={handleClose} />
         </Box>
     )

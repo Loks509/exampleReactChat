@@ -5,4 +5,8 @@ const setSelectedChat: CaseReducer<IinitialState, PayloadAction<IitemChat | null
     state.selectedChat = action.payload
 }
 
-export const reducers = { setSelectedChat }
+const resetChats: CaseReducer<IinitialState> = (state) => {
+    state.chats = [];
+}
+
+export const reducers = { setSelectedChat, resetChats }

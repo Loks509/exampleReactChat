@@ -13,7 +13,7 @@ const chatsSlice = createSlice({
         });
 
         builder.addCase(getChats.fulfilled, (state, action) => {
-            state.chats = action.payload;
+            state.chats.push(...action.payload);
             state.loadingStatus = 'idle';
         });
 
@@ -29,4 +29,4 @@ const chatsSlice = createSlice({
 })
 
 export default chatsSlice.reducer
-export const { setSelectedChat } = chatsSlice.actions
+export const { setSelectedChat, resetChats } = chatsSlice.actions
