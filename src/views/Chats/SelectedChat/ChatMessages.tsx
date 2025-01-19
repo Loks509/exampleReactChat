@@ -67,6 +67,9 @@ export default function ChatMessages(props: ChatMessagesProps) {
             echo.channel(`create-message-${props.chatId}`)
                 .listen('.create-message', onNewMessage);
 
+            echo.channel(`change-message-${props.chatId}`)
+                .listen('.change-message', onNewMessage);
+
             echo.channel(`delete-message-${props.chatId}`)
                 .listen('.delete-message', onDeleteMessage);
 
@@ -77,6 +80,9 @@ export default function ChatMessages(props: ChatMessagesProps) {
         return () => {
             echo.channel(`create-message-${props.chatId}`)
                 .stopListening('.create-message', onNewMessage);
+
+            echo.channel(`change-message-${props.chatId}`)
+                .stopListening('.change-message', onNewMessage);
 
             echo.channel(`delete-message-${props.chatId}`)
                 .stopListening('.delete-message', onDeleteMessage);
