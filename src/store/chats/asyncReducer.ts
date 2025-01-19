@@ -3,9 +3,9 @@ import { createAppAsyncThunk } from "../useRedux";
 import { IcreateChatRequest, IitemChat } from "./type";
 
 export const getChats = createAppAsyncThunk('chats/getChats',
-    async (user_id: number | undefined, thunkApi) => {
+    async (page: number, thunkApi) => {
         return (await thunkApi.extra.clientApi.get<IpayloadApiWithoutPaginator<IitemChat[]>>('chat',
-            { params: { user_id: user_id || thunkApi.getState().user.id } }
+            { params: { page } }
         )).data.data;
     }
 )

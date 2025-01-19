@@ -1,10 +1,10 @@
 import createBrowserRouter from "./core/router/createBrowserRouter"
 import { router as chatRouter } from "./views/Chats/router"
 import * as views from "./views"
-import { Outlet } from "react-router-dom"
+import { Link, Outlet } from "react-router-dom"
+import { Button } from "@mui/material"
 
 const router = createBrowserRouter([
-    //блок для отображения контента со всякой фигней вокруг
     {
         title: "Главная",
         path: "/",
@@ -17,8 +17,8 @@ const router = createBrowserRouter([
                 children: chatRouter
             },
             {
-                path: '*',
-                element: <>Not Found</>
+                path: '',
+                element: <Button variant='outlined' color='success' component={Link} to='/chat/all'>К чату!</Button>
             }
         ]
 
